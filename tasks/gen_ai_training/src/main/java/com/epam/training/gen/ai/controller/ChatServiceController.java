@@ -1,6 +1,7 @@
 package com.epam.training.gen.ai.controller;
 
-import com.epam.training.gen.ai.service.ChatService;
+import com.epam.training.gen.ai.ChatResponse;
+import com.epam.training.gen.ai.service.BasicChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +16,18 @@ import java.util.List;
 @RequestMapping("/ai/chat")
 public class ChatServiceController {
 
-    private final ChatService chatService;
+    private final BasicChatService basicChatService;
 
 
     @Autowired
-    public ChatServiceController(ChatService chatService) {
-        this.chatService = chatService;
+    public ChatServiceController(BasicChatService basicChatService) {
+        this.basicChatService = basicChatService;
 
     }
 
     @GetMapping
-    public ResponseEntity<Mono<List<String>>> getChatbotResponse(@RequestParam String prompt) {
-        return ResponseEntity.ok(chatService.getChatResponse(prompt));
+    public ResponseEntity<Mono<List<ChatResponse>>> getChatbotResponse(@RequestParam String prompt) {
+        return ResponseEntity.ok(basicChatService.getChatResponse(prompt));
     }
 }
+
