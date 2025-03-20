@@ -26,4 +26,12 @@ public class ChatResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "ChatResponse{" +
+                "authorRole=" + authorRole +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

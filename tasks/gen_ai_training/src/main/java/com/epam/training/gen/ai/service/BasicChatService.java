@@ -18,26 +18,21 @@ public class BasicChatService implements ChatService{
 
     private final ChatCompletionService chatCompletionService;
 
-    private final Kernel kernel;
-
-    private final InvocationContext invocationContext;
-
     @Autowired
-    public BasicChatService(ChatCompletionService chatCompletionService, Kernel kernel, InvocationContext invocationContext) {
+    public BasicChatService(ChatCompletionService chatCompletionService, Kernel kernel) {
         this.chatCompletionService = chatCompletionService;
-        this.kernel = kernel;
-        this.invocationContext = invocationContext;
     }
 
     public Mono<List<ChatResponse>> getChatResponse(String prompt){
 
         return chatCompletionService
-                .getChatMessageContentsAsync(prompt, kernel, invocationContext)
+                .getChatMessageContentsAsync(prompt, null, null) //no need of kernel and invocation context in this example
                 .map(results -> results.stream()
                         .filter(Objects::nonNull)
                         .map(msg -> new ChatResponse(msg.getAuthorRole(), msg.getContent()))
                         .collect(Collectors.toList()));
     }
+
 }
 
 
