@@ -1,10 +1,7 @@
 package com.epam.training.gen.ai.controller;
 
 import com.epam.training.gen.ai.ChatResponse;
-import com.epam.training.gen.ai.service.BasicChatService;
-import com.epam.training.gen.ai.service.FunctionService;
-import com.epam.training.gen.ai.service.HistoryChatService;
-import com.epam.training.gen.ai.service.PromptSettingService;
+import com.epam.training.gen.ai.service.*;
 import com.microsoft.semantickernel.services.ServiceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +27,20 @@ public class ChatServiceController {
 
     private final HistoryChatService historyChatService;
 
+    private final SwitchModelService switchModelService;
+
+    private final CompareModelService compareModelService;
+
 
     @Autowired
-    public ChatServiceController(BasicChatService basicChatService, PromptSettingService promptSettingService, FunctionService functionService, HistoryChatService historyChatService) {
+    public ChatServiceController(BasicChatService basicChatService, PromptSettingService promptSettingService, FunctionService functionService, HistoryChatService historyChatService,
+                                 SwitchModelService switchModelService, CompareModelService compareModelService) {
         this.basicChatService = basicChatService;
         this.promptSettingService = promptSettingService;
         this.historyChatService = historyChatService;
         this.functionService = functionService;
+        this.switchModelService = switchModelService;
+        this.compareModelService = compareModelService;
     }
 
     @GetMapping("/basic")
@@ -64,6 +68,18 @@ public class ChatServiceController {
         chatHistoryList.addAll(chatResponse);
         chatHistoryList.forEach(res -> System.out.println(res));
         return ResponseEntity.ok(chatHistoryList);
+    }
+
+    @GetMapping("/switch")
+    public ResponseEntity<String> getChatCompletion(@RequestParam String input, String modelId, double temperature) {
+        String response = switchModelService.chatResponse(input, modelId, temperature);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/compare")
+    public ResponseEntity<String> compare() {
+        String response = compareModelService.compare();
+        return ResponseEntity.ok(response);
     }
 
 
