@@ -1,0 +1,15 @@
+name: GenerateAutobiography
+template: |
+  Autobiography of {{$person}} that is {{$length}} sentences long.
+template_format: semantic-kernel
+description: A function that generates autobiography of a person.
+input_variables:
+  - name: person
+    description: The autobiography of person.
+    is_required: true
+  - name: length
+    description: The number of sentences in the story.
+    is_required: true
+output_variable:
+  description: The generated autobiography.
+
