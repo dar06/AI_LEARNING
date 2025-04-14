@@ -14,6 +14,8 @@ import com.microsoft.semantickernel.orchestration.PromptExecutionSettings;
 import com.microsoft.semantickernel.orchestration.ToolCallBehavior;
 import com.microsoft.semantickernel.plugin.KernelPluginFactory;
 import com.microsoft.semantickernel.services.chatcompletion.ChatCompletionService;
+import io.metaloom.qdrant.client.http.QDrantHttpClient;
+import io.metaloom.qdrant.client.http.impl.QDrantHttpClientImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,6 +65,12 @@ public class GenAiTrainingConfiguration {
                 .withReturnMode(InvocationReturnMode.LAST_MESSAGE_ONLY)
                 .withToolCallBehavior(ToolCallBehavior.allowAllKernelFunctions(true))
                 .build();
+    }
+
+    @Bean
+    public QDrantHttpClientImpl qdrantHttpClient() {
+        return QDrantHttpClient.builder().setHostname("localhost").setPort(6333).build();
+
     }
 
 
