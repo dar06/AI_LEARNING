@@ -3,7 +3,9 @@ package com.epam.training.gen.ai.configuration;
 import com.azure.ai.openai.OpenAIAsyncClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.core.credential.AzureKeyCredential;
+import com.epam.training.gen.ai.plugin.CurrencyConverterPlugin;
 import com.epam.training.gen.ai.plugin.GreetingPlugin;
+import com.epam.training.gen.ai.plugin.WelcomePlugin;
 import com.microsoft.semantickernel.Kernel;
 import com.microsoft.semantickernel.aiservices.openai.chatcompletion.OpenAIChatCompletion;
 import com.microsoft.semantickernel.orchestration.InvocationContext;
@@ -47,8 +49,10 @@ public class GenAiTrainingConfiguration {
     public Kernel kernel(ChatCompletionService chatCompletionService) {
         return Kernel.builder()
                 .withAIService(ChatCompletionService.class, chatCompletionService)
-                .withPlugin(KernelPluginFactory.createFromObject(new GreetingPlugin(),
-                       "GreetingPlugin"))
+                .withPlugin(KernelPluginFactory.createFromObject(new CurrencyConverterPlugin(),
+                        "CurrencyConverterPlugin"))
+                .withPlugin(KernelPluginFactory.createFromObject(new WelcomePlugin(),
+                        "WelcomePlugin"))
                 .build();
     }
 
